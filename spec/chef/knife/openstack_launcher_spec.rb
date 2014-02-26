@@ -77,11 +77,11 @@ describe Chef::Knife::OpenstackServerFromProfile do
     context 'passing valid credentials & image' do
       before do
         launcher.config[:image]             = '89fb8403-fe5d-4de8-b8a9-33560c77e390'
-        launcher.config[:aws_ssh_key_id]    = 'dummy'
-        launcher.config[:aws_access_key_id] = 'dummy'
-        launcher.config[:aws_secret_key_id] = 'dummy'
+        launcher.config[:openstack_ssh_key_id]    = 'dummy'
+        launcher.config[:openstack_username] = 'dummy'
+        launcher.config[:openstack_password] = 'dummy'
 
-        expect(ec2_server_create).to receive(:run).and_return true
+        expect(openstack_server_create).to receive(:run).and_return true
       end
 
       it 'runs' do
