@@ -26,37 +26,29 @@ Create a config/openstack.yml file in your Chef repository. Here's an example:
 
 ```yml
 profiles:
-  svn:
-    ec2_security_groups:
-      - "svn"
+  instance:
+    security_groups:
+      - "default"
     run_list:
-      - "role[svn]"
       - "role[base]"
     flavor: "t1.micro"
     image: "ami-f5998981"
+    distro: "chef-full"
 
-  nfs_server:
-    ec2_security_groups:
-      - "cove"
-    run_list:
-      - "role[base]"
-      - "role[nfs_server]"
-    chef_environment: "prod"
-    distro: "ubuntu12.04-gems"
 ```
 
-To bootstrap a SVN server with the right security group, flavor and image,
+To bootstrap an "instance" server with the right security group, flavor and image,
 launch from your Chef repository:
 
 ```shell
-knife openstack server from profile svn.example.com --profile=svn
+knife openstack server from profile instance.example.com --profile=instance
 ```
 
 
 You can specify the path to a YAML config file:
 
 ```shell
-knife openstack server from profile svn.example.com --profile=svn \
+knife openstack server from profile instance.example.com --profile=instance \
   --yaml-config=/path/to/config.yml
 ```
 
