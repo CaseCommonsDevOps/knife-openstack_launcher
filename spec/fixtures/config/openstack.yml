@@ -7,8 +7,8 @@ profiles:
       - "role[base]"
     environment: "dev"
     distro: "chef-full"
-    image: "ami-0dadba79"
-    flavor: "m1.small"
+    image: "89fb8403-fe5d-4de8-b8a9-33560c77e390"
+    flavor: "2"
   test_2:
     security_groups:
       - "prod"
@@ -18,5 +18,5 @@ profiles:
       - "role[webserver]"
     environment: "prod"
     distro: "chef-full"
-    image: "ami-0dadba79"
-    flavor: "c1.medium"
+    image: "89fb8403-fe5d-4de8-b8a9-33560c77e390"
+    flavor: "4"

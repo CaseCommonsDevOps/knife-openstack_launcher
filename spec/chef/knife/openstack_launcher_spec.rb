@@ -1,30 +1,30 @@
 require 'spec_helper'
 
-describe Chef::Knife::Ec2ServerFromProfile do
-  class DummyEc2ServerCreate
+describe Chef::Knife::OpenstackServerFromProfile do
+  class DummyOpenstackServerCreate
   end
 
   let :yaml_config_path do
-    File.expand_path('../../../fixtures/config/ec2.yml', __FILE__)
+    File.expand_path('../../../fixtures/config/openstack.yml', __FILE__)
   end
 
   let :argv do
-    %w(ec2 server from profile node_name --profile=test) \
+    %w(openstack server from profile node_name --profile=test) \
       << "--yaml-config=#{yaml_config_path}"
   end
 
-  let :ec2_server_create do
-    DummyEc2ServerCreate.new
+  let :openstack_server_create do
+    DummyOpenstackServerCreate.new
   end
 
   let :launcher do
-    described_class.new(argv, ec2_server_create)
+    described_class.new(argv, openstack_server_create)
   end
 
   context 'when passing a node_name' do
     before do
-      ec2_server_create.stub :config=
-      ec2_server_create.stub :run
+      openstack_server_create.stub :config=
+      openstack_server_create.stub :run
     end
 
     context 'when a node_name and a valid profile are passed' do
@@ -42,8 +42,8 @@ describe Chef::Knife::Ec2ServerFromProfile do
           [:run_list,        ['recipe[build-essential]', 'role[base]']],
           [:environment,     'dev'],
           [:distro,          'chef-full'],
-          [:image,           'ami-0dadba79'],
-          [:flavor,          'm1.small']
+          [:image,           '89fb8403-fe5d-4de8-b8a9-33560c77e390'],
+          [:flavor,          '2']
         ].each do |config, value|
           expect(launcher.config[config]).to eq value
         end
@@ -52,7 +52,7 @@ describe Chef::Knife::Ec2ServerFromProfile do
 
     context 'when a node_name and an invalid profile are passed' do
       let :argv do
-        %w(ec2 server from profile node_name --profile=invalid) \
+        %w(openstack server from profile node_name --profile=invalid) \
           << "--yaml-config=#{yaml_config_path}"
       end
 
@@ -76,7 +76,7 @@ describe Chef::Knife::Ec2ServerFromProfile do
 
     context 'passing valid credentials & image' do
       before do
-        launcher.config[:image]             = 'ami-0dadba79'
+        launcher.config[:image]             = '89fb8403-fe5d-4de8-b8a9-33560c77e390'
         launcher.config[:aws_ssh_key_id]    = 'dummy'
         launcher.config[:aws_access_key_id] = 'dummy'
         launcher.config[:aws_secret_key_id] = 'dummy'
@@ -97,8 +97,8 @@ describe Chef::Knife::Ec2ServerFromProfile do
           'run_list set from profile: recipe\[build-essential\],role\[base\]',
           'environment set from profile: dev',
           'distro set from profile: chef-full',
-          'image set from profile: ami-0dadba79',
-          'flavor set from profile: m1.small'
+          'image set from profile: 89fb8403-fe5d-4de8-b8a9-33560c77e390',
+          'flavor set from profile: 2'
         ].each do |line|
             expect(content).to match(/#{line}/)
           end
@@ -109,7 +109,7 @@ describe Chef::Knife::Ec2ServerFromProfile do
   context 'when passing invalid arguments' do
     context 'when no node_name is passed' do
       let :argv do
-        %w(ec2 server from profile --profile=test) \
+        %w(openstack server from profile --profile=test) \
           << "--yaml-config=#{yaml_config_path}"
       end
 
@@ -122,7 +122,7 @@ describe Chef::Knife::Ec2ServerFromProfile do
 
     context 'when too many args are passed' do
       let :argv do
-        %w(ec2 server from profile node_name extra_param --profile=test) \
+        %w(openstack server from profile node_name extra_param --profile=test) \
           << "--yaml-config=#{yaml_config_path}"
       end
 

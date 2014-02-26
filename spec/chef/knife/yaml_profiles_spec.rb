@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Chef::Knife::YAMLProfiles do
   let :yaml_config_path do
-    File.expand_path('../../../fixtures/config/ec2.yml', __FILE__)
+    File.expand_path('../../../fixtures/config/openstack.yml', __FILE__)
   end
 
   let :profiles do
@@ -30,8 +30,8 @@ describe Chef::Knife::YAMLProfiles do
         'run_list'        => ['recipe[build-essential]', 'role[base]'],
         'environment'     => 'dev',
         'distro'          => 'chef-full',
-        'image'           => 'ami-0dadba79',
-        'flavor'          => 'm1.small'
+        'image'           => '89fb8403-fe5d-4de8-b8a9-33560c77e390',
+        'flavor'          => '2'
       }
       expect(subject).to eq expected_config
     end

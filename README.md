@@ -1,17 +1,17 @@
-# Knife EC2 Launcher
+# Knife OpenStack Launcher
 
-[![Build Status](https://travis-ci.org/greenalto/knife-ec2_launcher.png)](https://travis-ci.org/greenalto/knife-ec2_launcher)
-[![Code Climate](https://codeclimate.com/github/greenalto/knife-ec2_launcher.png)](https://codeclimate.com/github/greenalto/knife-ec2_launcher)
+[![Build Status](https://travis-ci.org/greenalto/knife-ec2_launcher.png)](https://travis-ci.org/greenalto/knife-openstack_launcher)
+[![Code Climate](https://codeclimate.com/github/greenalto/knife-ec2_launcher.png)](https://codeclimate.com/github/greenalto/knife-openstack_launcher)
 
-A knife-ec2 wrapper with support for YAML profiles
+A knife-openstack wrapper with support for YAML profiles
 
 ## Installation
 
 Add this line to your Chef repository's Gemfile:
 
 ```ruby
-gem 'knife-ec2_launcher',
-    :git => 'git@github.com:greenalto/knife-ec2_launcher.git'
+gem 'knife-openstack_launcher',
+    :git => 'git@github.com:greenalto/knife-openstack_launcher.git'
 ```
 
 And then execute:
@@ -22,7 +22,7 @@ $ bundle
 
 ## Usage
 
-Create a config/ec2.yml file in your Chef repository. Here's an example:
+Create a config/openstack.yml file in your Chef repository. Here's an example:
 
 ```yml
 profiles:
@@ -49,19 +49,19 @@ To bootstrap a SVN server with the right security group, flavor and image,
 launch from your Chef repository:
 
 ```shell
-knife ec2 server from profile svn.example.com --profile=svn
+knife openstack server from profile svn.example.com --profile=svn
 ```
 
 
 You can specify the path to a YAML config file:
 
 ```shell
-knife ec2 server from profile svn.example.com --profile=svn \
+knife openstack server from profile svn.example.com --profile=svn \
   --yaml-config=/path/to/config.yml
 ```
 
 You can override anything that can be set when bootstrapping a node using
-knife-ec2 using the YAML profiles. See
+knife-openstack using the YAML profiles. See
 [ec2_base](https://github.com/opscode/knife-ec2/blob/201850a938b3bece4719045786619ed9ad27ff0d/lib/chef/knife/ec2_base.rb#L37-L53)
 and
 [ec2_server_create](https://github.com/opscode/knife-ec2/blob/master/lib/chef/knife/ec2_server_create.rb#L42-L223)
@@ -72,7 +72,7 @@ For example, if you want to create a more powerful SVN server in another region
 as a one-time action:
 
 ```shell
-knife ec2 server from profile svn_us.example.com --profile=svn \
+knife openstack server from profile svn_us.example.com --profile=svn \
   --region=us-west-1 --flavor=m1.small
 ```
 

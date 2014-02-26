@@ -1,25 +1,25 @@
-# This plugin needs .chef/knife.rb populated with knife[:aws_access_key_id]
-# and knife[:aws_secret_access_key] and a config/ec2.yml file
+# This plugin needs .chef/knife.rb populated with knife[:openstack_username]
+# and knife[::openstack_password], an knife[:openstack_auth_url]  and a config/openstack.yml file
 
 require 'chef/knife'
-require 'chef/knife/ec2_base'
-require 'chef/knife/ec2_server_create'
+require 'chef/knife/openstack_base'
+require 'chef/knife/openstack_server_create'
 require 'chef/knife/yaml_profiles'
 
 class Chef
   class Knife
-    class Ec2ServerFromProfile < Knife
-      include Knife::Ec2Base
+    class OpenstackServerFromProfile < Knife
+      include Knife::OpenstackBase
 
       deps do
         require 'fog'
         Chef::Knife::Bootstrap.load_deps
       end
 
-      banner "knife ec2 server from profile NODE_NAME --profile=PROFILE (options)"
+      banner "knife openstack server from profile NODE_NAME --profile=PROFILE (options)"
 
-      # Inherit options from knife-ec2 plugin
-      @options = Ec2ServerCreate.options.dup
+      # Inherit options from knife-openstack plugin
+      @options = OpenstackServerCreate.options.dup
 
       option :profile,
              :long        => '--profile PROFILE',
@@ -28,18 +28,18 @@ class Chef
 
       option :yaml_config,
              :long        => '--yaml-config PATH',
-             :default     => File.join(Dir.pwd, 'config/ec2.yml'),
+             :default     => File.join(Dir.pwd, 'config/openstack.yml'),
              :description => "Path to the YAML config file"
 
       # Set the config from the profile
-      def initialize(argv=[], ec2_server_create=Ec2ServerCreate.new)
+      def initialize(argv=[], openstack_server_create=OpenstackServerCreate.new)
         super(argv) # Thanks, mixlib-cli
 
         # This loads the config
         configure_chef
 
         @profiles          = YAMLProfiles.new(config[:yaml_config])
-        @ec2_server_create = ec2_server_create
+        @openstack_server_create = openstack_server_create
       end
 
       def run
@@ -49,8 +49,8 @@ class Chef
         work_around_chef_10_bug
         set_config_from_profile
 
-        @ec2_server_create.config = config
-        @ec2_server_create.run
+        @openstack_server_create.config = config
+        @openstack_server_create.run
       end
 
       private
