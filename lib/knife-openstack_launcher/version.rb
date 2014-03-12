@@ -1,5 +1,5 @@
 module Knife
   module OpenstackLauncher
-    VERSION = '0.0.1'
+    VERSION = '0.9.1'
   end
 end
