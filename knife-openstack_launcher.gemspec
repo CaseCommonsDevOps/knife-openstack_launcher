@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
                  else
                    ['>= 10', '<= 12']
                  end
-  spec.add_dependency "knife-openstack", "~> 0.9.1"
+  spec.add_dependency "knife-openstack", "~> 0.9.0"
   spec.add_dependency "chef",      chef_version
 
   spec.add_development_dependency "bundler", "~> 1.3"
