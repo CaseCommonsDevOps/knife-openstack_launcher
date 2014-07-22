@@ -83,8 +83,11 @@ class Chef
 
           value = @profiles[config[:profile]][key]
           config[option] = value
-          if key == 'image'
+          if key == 'image' && Chef::Config[:knife][:image].nil?
             Chef::Config[:knife][:image] = value
+          end
+          if key == 'environment' && Chef::Config[:environment].nil?
+            Chef::Config[:environment] = value
           end
           msg_pair "#{key} set from profile", pretty_config(value)
         end
